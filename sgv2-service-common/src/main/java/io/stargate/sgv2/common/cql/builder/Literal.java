@@ -15,7 +15,7 @@
  */
 package io.stargate.sgv2.common.cql.builder;
 
-class Literal implements Term {
+public class Literal implements Term {
 
   private final Object value;
 
