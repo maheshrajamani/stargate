@@ -59,7 +59,7 @@ import org.apache.commons.codec.binary.Hex;
 
 class DefaultStargateBridgeClient implements StargateBridgeClient {
 
-  private static final int TIMEOUT_SECONDS = 5;
+  private static final int TIMEOUT_SECONDS = 10;
   private static final Metadata.Key<String> HOST_KEY =
       Metadata.Key.of("Host", Metadata.ASCII_STRING_MARSHALLER);
   static final Query SELECT_KEYSPACE_NAMES =
