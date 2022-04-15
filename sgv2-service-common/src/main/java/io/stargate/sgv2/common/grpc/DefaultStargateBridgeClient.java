@@ -78,13 +78,14 @@ class DefaultStargateBridgeClient implements StargateBridgeClient {
       Channel channel,
       String authToken,
       Optional<String> tenantId,
+      int timeoutSeconds,
       Cache<String, CqlKeyspaceDescribe> keyspaceCache,
       LazyReference<CompletionStage<SupportedFeaturesResponse>> supportedFeaturesResponse,
       SourceApi sourceApi) {
     this.channel = tenantId.map(i -> addMetadata(channel, i)).orElse(channel);
     this.callOptions =
         CallOptions.DEFAULT
-            .withDeadlineAfter(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            .withDeadlineAfter(timeoutSeconds, TimeUnit.SECONDS)
             .withCallCredentials(new StargateBearerToken(authToken));
     this.tenantPrefix = tenantId.map(this::encodeKeyspacePrefix).orElse("");
     this.keyspaceCache = keyspaceCache;
