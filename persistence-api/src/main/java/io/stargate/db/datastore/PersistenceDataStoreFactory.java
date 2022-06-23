@@ -80,6 +80,8 @@ public class PersistenceDataStoreFactory implements DataStoreFactory {
       // Must have a clientInfo so that an external ClientState is used in order for authorization
       // to be performed
       clientInfo = new ClientInfo(new InetSocketAddress("127.0.0.1", 0), null);
+    } else {
+      clientInfo = new ClientInfo(new InetSocketAddress(0), null);
     }
     return create(user, options, clientInfo);
   }

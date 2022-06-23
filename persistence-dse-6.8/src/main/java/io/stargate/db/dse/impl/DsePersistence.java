@@ -133,7 +133,8 @@ public class DsePersistence
    */
   private static final int STARTUP_DELAY_MS =
       Integer.getInteger("stargate.startup_delay_ms", 3 * MigrationManager.MIGRATION_DELAY_IN_MS);
-
+  private static final boolean USE_ROLE_MANAGER =
+      Boolean.getBoolean("stargate.use_astra_role_manager");
   private CassandraDaemon cassandraDaemon;
   private Authenticator authenticator;
   private QueryInterceptor interceptor;
@@ -475,7 +476,11 @@ public class DsePersistence
       try {
         Single<ClientState> loginSingle;
         if (user.isFromExternalAuth() && USE_TRANSITIONAL_AUTH) {
-          loginSingle = this.clientState.login(EXTERNAL_AUTH_USER);
+          if (USE_ROLE_MANAGER) {
+            loginSingle = this.clientState.login(EXTERNAL_AUTH_USER);
+          } else {
+            loginSingle = this.clientState.login(new ExternalAuthenticatedUser(user.name()));
+          }
           clientState.setExternalAuth(true);
         } else {
           loginSingle = this.clientState.login(new AuthenticatedUser(user.name()));
