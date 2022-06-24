@@ -477,9 +477,9 @@ public class DsePersistence
         Single<ClientState> loginSingle;
         if (user.isFromExternalAuth() && USE_TRANSITIONAL_AUTH) {
           if (USE_ROLE_MANAGER) {
-            loginSingle = this.clientState.login(EXTERNAL_AUTH_USER);
-          } else {
             loginSingle = this.clientState.login(new ExternalAuthenticatedUser(user.name()));
+          } else {
+            loginSingle = this.clientState.login(EXTERNAL_AUTH_USER);
           }
           clientState.setExternalAuth(true);
         } else {
